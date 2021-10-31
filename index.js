@@ -40,6 +40,25 @@ async function run(){
      const result = await serviceCollection.insertOne(service)
      res.json(result)
    })
+
+   app.post('/order', async(req,res)=>{
+     const book = req.body;
+     const bookedservice = await serviceCollection.insertOne(book)
+     res.json(bookedservice)
+   })
+
+   app.get('/order', async(req,res)=>{
+    const booking = serviceCollection.find({});
+      const setbookings = await booking.toArray();
+      res.send(setbookings)
+   })
+   app.delete('/order/:id', async(req,res)=>{
+     const id = req.params.id;
+     const query = {_id:ObjectId(id)}
+     const result = await serviceCollection.deleteOne(query);
+     console.log('deleting order',result)
+     res.json(result)
+   })
   }
   finally{
     // await client.close();
